@@ -42,4 +42,10 @@ class User extends Authenticatable
     {
         return $this->path . $photo;
     }
+
+    public function IsAdmin()
+    {
+        if($this->role_id === 1) { return true ;}
+            else { return false; }
+    }
 }
