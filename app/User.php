@@ -45,7 +45,12 @@ class User extends Authenticatable
 
     public function IsAdmin()
     {
-        if($this->role_id === 1) { return true ;}
+        if($this->role_id === 1 &&  $this->is_active === 1) { return true ;}
             else { return false; }
+    }
+
+    public function posts()
+    {
+        return $this->hasMany('App\Post');
     }
 }
