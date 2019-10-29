@@ -52,7 +52,7 @@ class AdminUsersController extends Controller
 
         User::create($input);
 
-        Session()->flash('add_admin','This Admin '. $input['name'] . ' has been ADDED');
+        Session()->flash('add_admin','Admin '. $input['name'] . ' has been Added successfully');
 
         return redirect('/admin/users');
     }
@@ -107,7 +107,7 @@ class AdminUsersController extends Controller
 
         $user->update($input);
 
-        Session()->flash('update_admin','This Admin '. $user->name . ' has been UPDATED');
+        Session()->flash('update_admin','Admin '. $user->name . ' has been Updated successfully');
 
         return redirect('/admin/users');
     }
@@ -122,7 +122,9 @@ class AdminUsersController extends Controller
     {
         $user = User::findorfail($id);
 
-        if(!empty($user->photo_path))
+        $photo = str_replace($user->path,'',$user->photo_path);
+
+        if(!empty($photo))
         {
             if(file_exists(public_path($user->photo_path)))
             {
@@ -132,7 +134,7 @@ class AdminUsersController extends Controller
 
         $user->delete();
 
-        Session()->flash('delete_admin','This Admin '. $user->name . ' has been DELETED');
+        Session()->flash('delete_admin','Admin '. $user->name . ' has been Deleted successfully');
 
         return redirect ('/admin/users');
     }

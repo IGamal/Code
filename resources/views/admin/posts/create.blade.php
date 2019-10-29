@@ -7,17 +7,17 @@
 
     <div class = "form-group">
         {!! Form::label('title', 'Title', ['class' => 'control-label']) !!}
-        {!! Form::text('title', null, ['class' => 'form-control']) !!}
+        {!! Form::text('title', old('title'), ['class' => 'form-control']) !!}
     </div>
 
     <div class = "form-group">
         {!! Form::label('body', 'Body', ['class' => 'control-label']) !!}
-        {!! Form::textarea('body', null, ['class' => 'form-control']) !!}
+        {!! Form::textarea('body', old('body'), ['class' => 'form-control']) !!}
     </div>
 
     <div class = "form-group">
         {!! Form::label('category_id', 'Category', ['class' => 'control-label']) !!}
-        {!! Form::select('category_id', ["" => "Choose Category"] + $categories, null , ['class' => 'form-control']) !!}
+        {!! Form::select('category_id', ["" => "Choose Category"] + $categories, old('category_id'), ['class' => 'form-control']) !!}
     </div>
 
     <div class = "form-group">

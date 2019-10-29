@@ -9,7 +9,7 @@ class Post extends Model
     protected $fillable =
         ['title', 'body','user_id', 'category_id', 'photo_path'];
 
-    protected $path = "/images/" ;
+    public $path = "/images/" ;
 
     public function getPhotoPathAttribute($photo)
     {

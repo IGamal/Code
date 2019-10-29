@@ -19,7 +19,7 @@ class User extends Authenticatable
         'name', 'email', 'password','role_id','is_active','photo_path'
     ];
 
-    protected $path = "/images/" ;
+    public $path = "/images/" ;
     /**
      * The attributes that should be hidden for arrays.
      *

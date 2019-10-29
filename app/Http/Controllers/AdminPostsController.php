@@ -126,7 +126,9 @@ class AdminPostsController extends Controller
     {
         $post = Post::findorfail($id);
 
-        if(!empty($post->photo_path))
+        $photo = str_replace($post->path,'',$post->photo_path);
+
+        if(!empty($photo))
         {
             if(file_exists(public_path($post->photo_path)))
             {

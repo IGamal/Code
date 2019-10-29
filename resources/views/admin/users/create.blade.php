@@ -7,22 +7,22 @@
 
         <div class = "form-group">
             {!! Form::label('name', 'Name', ['class' => 'control-label']) !!}
-            {!! Form::text('name', null, ['class' => 'form-control']) !!}
+            {!! Form::text('name', old('name'), ['class' => 'form-control']) !!}
         </div>
 
         <div class = "form-group">
             {!! Form::label('email', 'Email', ['class' => 'control-label']) !!}
-            {!! Form::email('email', null, ['class' => 'form-control']) !!}
+            {!! Form::email('email', old('email'), ['class' => 'form-control']) !!}
         </div>
 
         <div class = "form-group">
             {!! Form::label('role_id', 'Role', ['class' => 'control-label']) !!}
-            {!! Form::select('role_id', ['' => 'Choose a Role', 0 => "User", 1 => "Admin"] , null , ['class' => 'form-control']) !!}
+            {!! Form::select('role_id', ['' => 'Choose a Role', 0 => "User", 1 => "Admin"] , old('role_id') , ['class' => 'form-control']) !!}
         </div>
 
         <div class = "form-group">
             {!! Form::label('is_active', 'Active', ['class' => 'control-label']) !!}
-            {!! Form::select('is_active', array(1 => "Active", 0 => "Not Active") , 0 , ['class' => 'form-control']) !!}
+            {!! Form::select('is_active', array(1 => "Active", 0 => "Not Active") , old('is_active'), ['class' => 'form-control']) !!}
         </div>
 
         <div class = "form-group">
