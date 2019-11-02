@@ -5,8 +5,8 @@
 
     <h1>Admins</h1>
 
-    @if(Session()->has('add_admin')) <p class="bg-danger"> {{session('add_admin')}}</p> @endif
-    @if(Session()->has('update_admin')) <p class="bg-danger"> {{session('update_admin')}}</p> @endif
+    @if(Session()->has('add_admin')) <p class="btn btn-success"> {{session('add_admin')}}</p> @endif
+    @if(Session()->has('update_admin')) <p class="btn btn-success"> {{session('update_admin')}}</p> @endif
     @if(Session()->has('delete_admin')) <p class="bg-danger"> {{session('delete_admin')}}</p> @endif
 
     <table class="table">
