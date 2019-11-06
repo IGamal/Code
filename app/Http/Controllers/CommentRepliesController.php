@@ -39,16 +39,16 @@ class CommentRepliesController extends Controller
     {
         $user = Auth::user();
 
-        $input =
+        request()->validate(['body' => 'required|min:5|max:255']);
+
+        CommentReply::create(
             [
                 'comment_id'=> $request->comment_id,
-                'body'   => $request->body,
+                'body'   => $request->reply,
                 'author' => $user->name,
                 'email'  => $user->email,
                 'photo'  => $user->photo_path,
-            ];
-
-        CommentReply::create($input);
+            ]);
 
         Session()->flash('reply_message','Your reply has been submitted and is waiting moderator review');
 
@@ -104,6 +104,26 @@ class CommentRepliesController extends Controller
     public function destroy($id)
     {
         CommentReply::findorfail($id)->delete();
+
+        return redirect()->back();
+    }
+
+    public function delete(Request $request)
+    {
+        $replies = CommentReply::FindorFail($request->checkBoxArray);
+
+        if (empty($request->checkBoxArray))
+        {
+            return redirect()->back();
+        }
+        else
+        {
+            foreach ($replies as $reply)
+
+                $reply->delete();
+
+            return redirect()->back();
+        }
 
         return redirect()->back();
     }

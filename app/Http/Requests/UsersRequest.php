@@ -25,11 +25,12 @@ class UsersRequest extends FormRequest
     {
         return [
             "name" => 'required|min:3|max:20',
-            "email" => "required",
+            "email" => "required|unique:users",
             "role_id" => "required",
             "is_active" => "required",
             "password" => "required|string|min:8|confirmed",
             "password_confirmation" => "required",
+            "photo_path" => "required"
         ];
     }
 }

@@ -40,7 +40,6 @@
                 <span class="icon-bar"></span>
             </button>
             <a class="navbar-brand" href="/">Home</a>
-            <span class="navbar-brand">{{Auth::user()->name}} </span>
         </div>
         <!-- /.navbar-header -->
 
@@ -52,7 +51,7 @@
             <!-- /.dropdown -->
             <li class="dropdown">
                 <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                    <i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down"></i>
+                    <i class="fa fa-user fa-fw"></i> {{Auth::user()->name}} <i class="fa fa-caret-down"></i>
                 </a>
                 <ul class="dropdown-menu dropdown-user">
                     <li><a href="#"><i class="fa fa-user fa-fw"></i> User Profile</a>
@@ -246,7 +245,7 @@
                                 <a class="active" href="blank.html">Blank Page</a>
                             </li>
                             <li>
-                                <a href="login.html">Login Page</a>
+                                <a href="{{route('login')}}">Login Page</a>
                             </li>
                         </ul>
                         <!-- /.nav-second-level -->
@@ -328,13 +327,26 @@
 
 <!-- jQuery -->
 <script src="{{asset('js/libs.js')}}"></script>
-
+<script>
+    $(document).on('click','#options',function()
+    {
+        if(this.checked)
+        {
+            $('.checkBoxes').each(function()
+            {
+                this.checked = true;
+            });
+        }
+        else
+        {
+            $('.checkBoxes').each(function () {
+                this.checked = false;
+            });
+        }
+    });
+</script>
 
 @yield('footer')
-
-
-
-
 
 </body>
 

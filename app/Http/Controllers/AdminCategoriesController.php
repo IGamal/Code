@@ -37,7 +37,7 @@ class AdminCategoriesController extends Controller
      */
     public function store(Request $request)
     {
-        Category::create($request->all());
+        Category::create(request()->validate ([ 'name' => 'required|min:5|max:20' ]));
 
         return redirect('/admin/categories');
     }
@@ -77,7 +77,7 @@ class AdminCategoriesController extends Controller
     {
         $category = Category::findorfail($id);
 
-        $category->update($request->all());
+        $category->update(request()->validate ([ 'name' => 'required|min:5|max:20' ]));
 
         return redirect('/admin/categories');
     }
@@ -88,10 +88,24 @@ class AdminCategoriesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function delete(Request $request)
     {
-        Category::findorfail($id)->delete();
+        $categories = Category::FindorFail($request->checkBoxArray);
 
-        return redirect('/admin/categories');
+        if (empty($request->checkBoxArray))
+        {
+            return redirect()->back();
+        }
+        else
+        {
+            foreach ($categories as $category)
+
+                $category->delete();
+
+            return redirect()->back();
+        }
+
+        return redirect()->back();
     }
 }
+

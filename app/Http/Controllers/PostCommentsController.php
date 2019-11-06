@@ -16,7 +16,7 @@ class PostCommentsController extends Controller
      */
     public function index()
     {
-        $comments = Comment::all();
+        $comments = Comment::paginate(5);
 
         return view('admin.comments.index', compact('comments'));
     }
@@ -41,16 +41,16 @@ class PostCommentsController extends Controller
     {
         $user = Auth::user();
 
-        $input =
+        request()->validate(['body' => 'required|min:5|max:255']);
+
+        Comment::create(
             [
                 'post_id'=> $request->post_id,
                 'body'   => $request->body,
                 'author' => $user->name,
                 'email'  => $user->email,
                 'photo'  => $user->photo_path,
-            ];
-
-        Comment::create($input);
+            ]);
 
         Session()->flash('comment_message','Your comment has been submitted and is waiting moderator review');
 
@@ -104,7 +104,25 @@ class PostCommentsController extends Controller
      */
     public function destroy($id)
     {
-        Comment::findorfail($id)->delete();
+
+    }
+
+    public function delete(Request $request)
+    {
+        $comments = Comment::FindorFail($request->checkBoxArray);
+
+        if (empty($request->checkBoxArray))
+        {
+            return redirect()->back();
+        }
+        else
+        {
+            foreach ($comments as $comment)
+
+            $comment->delete();
+
+            return redirect()->back();
+        }
 
         return redirect()->back();
     }

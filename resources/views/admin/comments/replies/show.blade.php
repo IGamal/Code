@@ -1,15 +1,18 @@
-@extends('layouts.admin');
+@extends('layouts.admin')
 
 @section('content')
 
     @if(count($replies) > 0 )
 
-        <h1>Comments</h1>
+        <h1>Replies</h1>
+
+        {!! Form::open(['method' => 'delete', "action" => 'CommentRepliesController@delete']) !!}
 
         <table class="table">
             <thead>
             <tr>
-                <th>Id</th>
+                <th><input type="checkbox" id="options"></th>
+                <th>ID</th>
                 <th>Author</th>
                 <th>Email</th>
                 <th>Post</th>
@@ -17,12 +20,10 @@
                 <th>Created at</th>
                 <th>updated at</th>
                 <th>Approve</th>
-                <th>Delete</th>
             </tr>
-            </thead>
-            <tbody>
-            <tr>
-                @foreach ($replies as $reply)
+            @foreach ($replies as $reply)
+                <tr>
+                    <th><input class="checkBoxes" type="checkbox" name="checkBoxArray[]" value="{{$reply->id}}"></th>
                     <th>{{$reply->id}}</th>
                     <th>{{$reply->author}}</th>
                     <th>{{$reply->email}}</th>
@@ -41,17 +42,12 @@
                     @else
                         <th><div class= 'btn btn-info'>Approved</div></th>
                     @endif
-                    <th>
-                        {!! Form::model($reply, ['method' => 'DELETE', 'action' => ['CommentRepliesController@destroy', $reply->id]]) !!}
-
-                        {!! Form::submit('Delete',['class' => 'btn btn-danger']) !!}
-
-                        {!! Form::close() !!}
-                    </th>
-            </tr>
+                </tr>
             @endforeach
-            </tbody>
         </table>
+        {!! Form::submit('Delete',['class' => 'btn btn-danger']) !!}
+
+    {!! Form::close() !!}
 
     @else
         <h1>No Replies</h1>

@@ -7,6 +7,7 @@
 
     <div class = "form-group">
         {!! Form::label('name', 'Name', ['class' => 'label-control']) !!}
+        @if($errors->has('name')) <p class="error">{{$errors->first('name') }}</p> @endif
         {!! Form::text('name',$category->name, ['class' => 'form-control']) !!}
     </div>
 

@@ -118,24 +118,34 @@ class AdminUsersController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+
+    public function delete(Request $request)
     {
-        $user = User::findorfail($id);
+        $users = User::FindorFail($request->checkBoxArray);
 
-        $photo = str_replace($user->path,'',$user->photo_path);
-
-        if(!empty($photo))
+        if(empty($request->checkBoxArray))
         {
-            if(file_exists(public_path($user->photo_path)))
-            {
-                unlink(public_path($user->photo_path));
+            return redirect()->back();
+        }
+        else
+        {
+            foreach ($users as $user) {
+                $photo = str_replace($user->path, '', $user->photo_path);
+
+                if (!empty($photo)) {
+                    if (file_exists(public_path($user->photo_path))) {
+                        unlink(public_path($user->photo_path));
+                    }
+                }
+
+                $user->delete();
+
+                Session()->flash('delete_admin', 'Admin ' . $user->name . ' has been Deleted successfully');
             }
+
+            return redirect()->back();
         }
 
-        $user->delete();
-
-        Session()->flash('delete_admin','Admin '. $user->name . ' has been Deleted successfully');
-
-        return redirect ('/admin/users');
+        return redirect()->back();
     }
 }

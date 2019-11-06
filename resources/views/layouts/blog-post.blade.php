@@ -123,6 +123,7 @@
 
     <!-- jQuery -->
     <script src="{{asset('js/libs.js')}}"></script>
+    @yield('script');
 
 </body>
 

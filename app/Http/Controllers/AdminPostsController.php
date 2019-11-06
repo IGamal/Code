@@ -18,7 +18,7 @@ class AdminPostsController extends Controller
      */
     public function index()
     {
-        $posts = Post::all();
+        $posts = Post::paginate(5);
 
         return view('admin.posts.index', compact("posts"));
     }
@@ -116,38 +116,48 @@ class AdminPostsController extends Controller
         return redirect('/admin/posts');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        $post = Post::findorfail($id);
-
-        $photo = str_replace($post->path,'',$post->photo_path);
-
-        if(!empty($photo))
-        {
-            if(file_exists(public_path($post->photo_path)))
-            {
-                unlink(public_path($post->photo_path));
-            }
-        }
-
-        $post->delete();
-
-        Session()->flash('delete_post','The post has been Deleted successfully');
-
-        return redirect ('/admin/posts');
-    }
-
     public function post($id)
     {
         $post = Post::findorfail($id);
         $comments = $post->comments()->whereIsActive(1)->get();
 
         return view('post', compact('post', 'comments'));
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+
+    public function delete(Request $request)
+    {
+        $posts = Post::FindorFail($request->checkBoxArray);
+
+        if(empty($request->checkBoxArray))
+        {
+            return redirect()->back();
+        }
+        else
+        {
+            foreach ($posts as $post) {
+                $photo = str_replace($post->path, '', $post->photo_path);
+
+                if (!empty($photo)) {
+                    if (file_exists(public_path($post->photo_path))) {
+                        unlink(public_path($post->photo_path));
+                    }
+                }
+
+                $post->delete();
+
+                Session()->flash('delete_post','The post has been Deleted successfully');
+            }
+
+            return redirect()->back();
+        }
+
+        return redirect()->back();
     }
 }
