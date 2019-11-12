@@ -9,6 +9,15 @@ use App\Comment;
 
 class PostCommentsController extends Controller
 {
+
+    public function checkrequest(Request $request)
+    {
+        if($request->input('update')) { $this->update($request, $request->id);}
+        elseif($request->input('delete')) { $this->delete($request);}
+
+        return redirect()->back();
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -22,16 +31,6 @@ class PostCommentsController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -41,7 +40,7 @@ class PostCommentsController extends Controller
     {
         $user = Auth::user();
 
-        request()->validate(['body' => 'required|min:5|max:255']);
+        request()->validate(['body' => 'required|min:2|max:255']);
 
         Comment::create(
             [
@@ -69,20 +68,9 @@ class PostCommentsController extends Controller
 
         $comments = $post->comments;
 
-        return view('admin.comments.show', compact('comments'));    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
+        return view('admin.comments.show', compact('comments'));
     }
-
-    /**
+    /*
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -91,7 +79,8 @@ class PostCommentsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        Comment::FindorFail($id)->update(['is_active'=> 1]);
+
+        Comment::findorfail($id)->update(['is_active'=> 1]);
 
         return redirect()->back();
     }
@@ -102,11 +91,6 @@ class PostCommentsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
-    {
-
-    }
-
     public function delete(Request $request)
     {
         $comments = Comment::FindorFail($request->checkBoxArray);
@@ -122,6 +106,7 @@ class PostCommentsController extends Controller
             $comment->delete();
 
             return redirect()->back();
+
         }
 
         return redirect()->back();

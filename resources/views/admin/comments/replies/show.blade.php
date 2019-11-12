@@ -6,7 +6,7 @@
 
         <h1>Replies</h1>
 
-        {!! Form::open(['method' => 'delete', "action" => 'CommentRepliesController@delete']) !!}
+        {!! Form::open(['method' => 'POST', "action" => 'CommentRepliesController@checkrequest']) !!}
 
         <table class="table">
             <thead>
@@ -15,6 +15,7 @@
                 <th>ID</th>
                 <th>Author</th>
                 <th>Email</th>
+                <th>Comment ID</th>
                 <th>Post</th>
                 <th>Body</th>
                 <th>Created at</th>
@@ -27,16 +28,16 @@
                     <th>{{$reply->id}}</th>
                     <th>{{$reply->author}}</th>
                     <th>{{$reply->email}}</th>
+                    <th>{{$reply->comment_id}}</th>
                     <th><a href = "{{route('home.post', $reply->comment->post_id)}}">{{$reply->comment->post->title}}</a></th>
                     <th>{{$reply->body}}</th>
                     <th>{{$reply->created_at->diffforhumans()}}</th>
                     <th>{{$reply->updated_at->diffforhumans()}}</th>
                     @if ($reply->is_active == 0 )
                         <th>
-                            {!! Form::model($reply,['method' => 'PATCH', 'action' => ['CommentRepliesController@update', $reply->id]]) !!}
-
-                            {!! Form::submit('Approve',['class' => 'btn btn-success']) !!}
-
+                            {!! Form::model($reply, ['method' => 'POST', 'action' =>[ 'CommentRepliesController@checkrequest', $reply->id]]) !!}
+                                <input type="text" value="{{$reply->id}}" name="id" hidden>
+                                {!! Form::submit('Approve',['class' => 'btn btn-success', 'name'=> 'update']) !!}
                             {!! Form::close() !!}
                         </th>
                     @else
@@ -45,7 +46,7 @@
                 </tr>
             @endforeach
         </table>
-        {!! Form::submit('Delete',['class' => 'btn btn-danger']) !!}
+        {!! Form::submit('Delete',['class' => 'btn btn-danger', 'name'=> 'delete']) !!}
 
     {!! Form::close() !!}
 

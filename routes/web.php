@@ -14,19 +14,15 @@
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/', 'HomeController@index')->name('home');
 
 Route::get('/post/{id}',['as' => 'home.post', 'uses' => 'AdminPostsController@post']);
 
 Route::group(['middleware' => 'admin'], function ()
 {
-    Route::get('/admin', function () {return view('admin.index');});
+    Route::get('/admin', 'AdminController@index');
 
     Route::resource('admin/users','AdminUsersController');
     Route::delete('/delete/user','AdminUsersController@delete');
@@ -42,9 +38,9 @@ Route::group(['middleware' => 'admin'], function ()
 Route::group(['middleware' => 'auth'],function ()
 {
     Route::resource('admin/comments','PostCommentsController');
-    Route::delete('/delete/comment','PostCommentsController@delete');
+    Route::post('/check/comment','PostCommentsController@checkrequest');
 
     Route::resource('admin/comments/replies','CommentRepliesController');
-    Route::delete('/delete/comments/replies','CommentRepliesController@delete');
+    Route::post('/check/reply','CommentRepliesController@checkrequest');
 
 });

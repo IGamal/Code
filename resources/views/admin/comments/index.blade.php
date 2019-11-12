@@ -6,7 +6,7 @@
 
         <h1>Comments</h1>
 
-        {!! Form::open(['method' => 'delete', "action" => 'PostCommentsController@delete']) !!}
+        {!! Form::open(['method' => 'POST', "action" => 'PostCommentsController@checkrequest']) !!}
             <table class="table">
                 <thead>
                     <tr>
@@ -36,11 +36,10 @@
                         <th>{{$comment->updated_at->diffforhumans()}}</th>
                             @if ($comment->is_active == 0 )
                                 <th>
-                                {!! Form::model($comment,['method' => 'PATCH', 'action' => ['PostCommentsController@update', $comment->id]]) !!}
-
-                                    {!! Form::submit('Approve',['class' => 'btn btn-success']) !!}
-
-                                {!! Form::close() !!}
+                                    {!! Form::model($comment, ['method' => 'POST', 'action' =>[ 'PostCommentsController@checkrequest', $comment->id]]) !!}
+                                    <input type="text" value="{{$comment->id}}" name="id" hidden>
+                                    {!! Form::submit('Approve',['class' => 'btn btn-success', 'name'=> 'update']) !!}
+                                    {!! Form::close() !!}
                                 </th>
                             @else
                                 <th><div class= 'btn btn-info'>Approved</div></th>
@@ -49,7 +48,7 @@
                     @endforeach
                 </tbody>
             </table>
-            {!! Form::submit('Delete Comment',['class' => 'btn btn-danger']) !!}
+            {!! Form::submit('Delete Comment',['class' => 'btn btn-danger', 'name'=> 'delete']) !!}
 
         {!! Form::close() !!}
         <div class="row">

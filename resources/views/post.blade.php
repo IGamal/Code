@@ -105,7 +105,7 @@
                         <div class="comment-reply">
                             {!! Form::open(['method' => 'POST', 'action' => 'CommentRepliesController@store']) !!}
 
-                            <input type="hidden" name="comment_id" value="{{$comment->id}}">
+                            <input type="text" name="comment_id" value="{{$comment->id}}" hidden>
 
                             <div class = "form-group">
                                 @if($errors->has('reply')) <p class = 'error'>{{$errors->first('reply') }}</p> @endif
@@ -114,8 +114,6 @@
 
                                 {!! Form::submit('Submit',['class' => 'btn btn-primary']) !!}
                             </div>
-
-
                             {!! Form::close() !!}
                         </div>
                     </div>

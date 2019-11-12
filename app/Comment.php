@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\Request;
 
 class Comment extends Model
 {
@@ -13,7 +14,8 @@ class Comment extends Model
             'author',
             'email',
             'body',
-            'photo'
+            'photo',
+            'cid'
         ];
 
     public function replies()

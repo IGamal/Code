@@ -9,6 +9,14 @@ use Illuminate\Support\Facades\Auth;
 
 class CommentRepliesController extends Controller
 {
+    public function checkrequest(Request $request)
+    {
+        if($request->input('update')) { $this->update($request, $request->id);}
+        elseif($request->input('delete')) { $this->delete($request);}
+
+        return redirect()->back();
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -39,7 +47,7 @@ class CommentRepliesController extends Controller
     {
         $user = Auth::user();
 
-        request()->validate(['body' => 'required|min:5|max:255']);
+        request()->validate(['reply' => 'required|min:2|max:255']);
 
         CommentReply::create(
             [
@@ -93,6 +101,7 @@ class CommentRepliesController extends Controller
         CommentReply::findorfail($id)->update(['is_active'=> 1]);
 
         return redirect()->back();
+
     }
 
     /**
@@ -101,13 +110,6 @@ class CommentRepliesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
-    {
-        CommentReply::findorfail($id)->delete();
-
-        return redirect()->back();
-    }
-
     public function delete(Request $request)
     {
         $replies = CommentReply::FindorFail($request->checkBoxArray);
